@@ -1,6 +1,5 @@
 """Implements a trie dictionary data structure."""
 
-import os
 import pathlib
 import pickle
 import time
@@ -110,5 +109,4 @@ def performance_test() -> None:
 
 
 if __name__ == "__main__":
-    print(CWD)
     performance_test()

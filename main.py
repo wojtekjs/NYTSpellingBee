@@ -7,6 +7,7 @@ import spelling_bee
 
 def format_words(words: list[str]) -> str:
     """Formats the list of words into a PrettyTable."""
+    words = filter(lambda x: len(x) > 3, words)
     all_words = sorted(words, key=lambda x: len(x), reverse=True)
 
     table = PrettyTable()
@@ -19,7 +20,7 @@ def format_words(words: list[str]) -> str:
 
 if __name__ == "__main__":  # Crucial for multiprocessing to work
     # Odd import placement required by pickling errors otherwise (main.py needs access to Trie, TrieNode).
-    from en_trie import Trie, TrieNode
+    from en_trie import Trie, TrieNode, get_trie
 
     user_letters = list(
         input("What is the letter set? (Including the required letter)\n>> ").lower()
@@ -27,8 +28,12 @@ if __name__ == "__main__":  # Crucial for multiprocessing to work
     print("\n")
     req_letter = input("What is the required letter?\n>> ").lower()
 
-    valid_words = spelling_bee.get_words(
-        user_letters=user_letters, req_letter=req_letter, rep_i=6
+    dict_trie = get_trie()
+    valid_words = spelling_bee.get_words_sequential(
+        user_letters=user_letters,
+        req_letter=req_letter,
+        dict_trie=dict_trie,
+        working_prefixes=list(user_letters),
     )
 
     table = format_words(valid_words)
