@@ -1,10 +1,13 @@
 """Implements a trie dictionary data structure."""
 
+import os
 import pathlib
 import pickle
 import time
 
 from prettytable import PrettyTable
+
+CWD = pathlib.Path(__file__).parent.absolute()
 
 
 class TrieNode:
@@ -49,7 +52,7 @@ class Trie:
 
 def build_full_trie():
     """Builds a trie from the full dictionary."""
-    with open("words_alpha.txt", "r") as f:
+    with open(f"{CWD}/words_alpha.txt", "r") as f:
         words = f.readlines()
 
     trie = Trie()
@@ -61,7 +64,7 @@ def build_full_trie():
 
 def get_trie():
     """Fetches the pickled trie if it exists, otherwise builds it and returns it."""
-    PKL_DICT_PATH = pathlib.Path("en_dictionary_trie.pkl")
+    PKL_DICT_PATH = pathlib.Path(f"{CWD}/en_dictionary_trie.pkl")
     if pathlib.Path(PKL_DICT_PATH).exists():
         with open(PKL_DICT_PATH, "rb") as f:
             return pickle.load(f)
@@ -107,4 +110,5 @@ def performance_test() -> None:
 
 
 if __name__ == "__main__":
+    print(CWD)
     performance_test()
