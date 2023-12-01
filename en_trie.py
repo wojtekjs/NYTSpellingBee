@@ -1,5 +1,6 @@
 """Implements a trie dictionary data structure."""
 
+import os
 import pathlib
 import pickle
 import time
@@ -10,12 +11,16 @@ CWD = pathlib.Path(__file__).parent.absolute()
 
 
 class TrieNode:
+    """Node for the Trie data structure."""
+
     def __init__(self):
         self.children = {}
         self.is_word = False
 
 
 class Trie:
+    """Trie data structure."""
+
     def __init__(self):
         self.root = TrieNode()
 
@@ -49,7 +54,7 @@ class Trie:
         return True
 
 
-def build_full_trie():
+def build_full_trie() -> Trie:
     """Builds a trie from the full dictionary."""
     with open(f"{CWD}/words_alpha.txt", "r") as f:
         words = f.readlines()
@@ -61,7 +66,7 @@ def build_full_trie():
     return trie
 
 
-def get_trie():
+def get_trie() -> Trie:
     """Fetches the pickled trie if it exists, otherwise builds it and returns it."""
     PKL_DICT_PATH = pathlib.Path(f"{CWD}/en_dictionary_trie.pkl")
     if pathlib.Path(PKL_DICT_PATH).exists():
@@ -109,4 +114,7 @@ def performance_test() -> None:
 
 
 if __name__ == "__main__":
-    performance_test()
+    # Handy code to rebuild the trie as needed.
+    if pathlib.Path(f"{CWD}/en_dictionary_trie.pkl").exists():
+        os.remove(f"{CWD}/en_dictionary_trie.pkl")
+    get_trie()

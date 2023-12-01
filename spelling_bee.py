@@ -19,7 +19,7 @@ def get_words_sequential(
 
     new_prefixes = []
     for prefix in working_prefixes:
-        if dict_trie.search(prefix):
+        if req_letter in prefix and dict_trie.search(prefix):
             valid_words.append(prefix)
 
         for char in user_letters:
@@ -38,7 +38,7 @@ def get_words_sequential(
     )
 
 
-if __name__ == "__main__":  # Crucial for multiprocessing to work
+if __name__ == "__main__":
     dict_trie = get_trie()
     print(
         get_words_sequential(
